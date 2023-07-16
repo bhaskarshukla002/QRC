@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Drawing.Printing;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
+﻿using System;
 
 namespace QRC
 {
@@ -37,6 +33,7 @@ namespace QRC
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.drawBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.saveBtn = new System.Windows.Forms.Button();
             this.rackLabel = new System.Windows.Forms.Label();
             this.rackCB = new System.Windows.Forms.ComboBox();
             this.rowLabel = new System.Windows.Forms.Label();
@@ -50,18 +47,21 @@ namespace QRC
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 55);
+            this.pictureBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Cursor;
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Location = new System.Drawing.Point(2, 52);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(1754, 1240);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // drawBtn
             // 
-            this.drawBtn.Location = new System.Drawing.Point(717, 8);
+            this.drawBtn.Location = new System.Drawing.Point(717, 9);
             this.drawBtn.Margin = new System.Windows.Forms.Padding(4);
             this.drawBtn.Name = "drawBtn";
             this.drawBtn.Size = new System.Drawing.Size(100, 34);
@@ -73,6 +73,7 @@ namespace QRC
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.saveBtn);
             this.panel1.Controls.Add(this.rackLabel);
             this.panel1.Controls.Add(this.rackCB);
             this.panel1.Controls.Add(this.rowLabel);
@@ -86,6 +87,17 @@ namespace QRC
             this.panel1.Size = new System.Drawing.Size(1756, 51);
             this.panel1.TabIndex = 2;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // saveBtn
+            // 
+            this.saveBtn.Location = new System.Drawing.Point(883, 9);
+            this.saveBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.saveBtn.Name = "saveBtn";
+            this.saveBtn.Size = new System.Drawing.Size(100, 34);
+            this.saveBtn.TabIndex = 9;
+            this.saveBtn.Text = "Save";
+            this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.button2Clicked);
             // 
             // rackLabel
             // 
@@ -117,6 +129,7 @@ namespace QRC
             // 
             // rowCB
             // 
+            this.rowCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rowCB.FormattingEnabled = true;
             this.rowCB.Items.AddRange(new object[] {
             "A",
@@ -130,20 +143,7 @@ namespace QRC
             "I",
             "J",
             "K",
-            "L",
-            "M",
-            "N",
-            "O",
-            "P",
-            "Q",
-            "R",
-            "S",
-            "T",
-            "U",
-            "V",
-            "W",
-            "X",
-            "Y"});
+            "L"});
             this.rowCB.Location = new System.Drawing.Point(295, 12);
             this.rowCB.Name = "rowCB";
             this.rowCB.Size = new System.Drawing.Size(121, 32);
@@ -179,31 +179,29 @@ namespace QRC
             this.ShowIcon = false;
             this.Text = "QR Generator";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spaceInput)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
         private void InitializeRackComboBox()
         {
-            for (int i = 1; i < 100; i++)
+            for (int i = 1; i < 23; i++)
             {
                 string number = i.ToString("D2"); // Format the number as a two-digit string with leading zeros
-                this.rackCB.Items.Add(number); // Add the number to the rackCB control
+                this.rackCB.Items.Add(number);    // Add the number to the rackCB control
             }
         }
-        //private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    // Perform time-consuming operation here
-        //}
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            pictureBox1.Width = this.ClientSize.Width - 20; // Adjust the width as needed, subtracting any padding
+            pictureBox1.Height = this.ClientSize.Height - 55;// Adjust the height as needed, subtracting any padding
+        }
 
-        //private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    // Perform another time-consuming operation here
-        //}
+        
 
 
         #endregion
@@ -217,10 +215,9 @@ namespace QRC
         private System.Windows.Forms.ComboBox rowCB;
         private System.Windows.Forms.Label spaceInputLabel;
         private System.Windows.Forms.NumericUpDown spaceInput;
-        //private System.Windows.Forms.ComboBox comboBox2;
-        //private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button saveBtn;
 
-        
+
     }
     
 }
